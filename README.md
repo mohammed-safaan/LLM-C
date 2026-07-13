@@ -18,18 +18,18 @@ LLM-C wraps HTTP communication, JSON parsing, and provider-specific LLM protocol
 
 ## Providers
 
-| Provider | Endpoint | Default Model | Auth |
-|---|---|---|---|
-| **Ollama** | Local REST API | `llama3` | None |
-| **OpenRouter** | REST API | `openai/gpt-4o` | Bearer token |
+| Provider       | Endpoint       | Default Model   | Auth         |
+| -------------- | -------------- | --------------- | ------------ |
+| **Ollama**     | Local REST API | `llama3`        | None         |
+| **OpenRouter** | REST API       | `openai/gpt-4o` | Bearer token |
 
 ## Dependencies
 
-| Dependency | Purpose | Required |
-|---|---|---|
-| [libcurl](https://curl.se/libcurl/) | HTTP client | Yes |
+| Dependency                                   | Purpose      | Required                   |
+| -------------------------------------------- | ------------ | -------------------------- |
+| [libcurl](https://curl.se/libcurl/)          | HTTP client  | Yes                        |
 | [cJSON](https://github.com/DaveGamble/cJSON) | JSON parsing | Yes (bundled as submodule) |
-| [CMake](https://cmake.org/) >= 3.14 | Build system | Yes |
+| [CMake](https://cmake.org/) >= 3.14          | Build system | Yes                        |
 
 ## Building
 
@@ -48,11 +48,17 @@ cmake --preset debug
 cmake --build --preset debug
 ```
 
+### Running Tests
+
+```bash
+ctest --test-dir build --verbose
+```
+
 ### Build Options
 
-| Option | Default | Description |
-|---|---|---|
-| `LLM_USE_SYSTEM_CJSON` | `OFF` | Use system cJSON instead of bundled submodule |
+| Option                 | Default | Description                                   |
+| ---------------------- | ------- | --------------------------------------------- |
+| `LLM_USE_SYSTEM_CJSON` | `OFF`   | Use system cJSON instead of bundled submodule |
 
 ## Project Structure
 

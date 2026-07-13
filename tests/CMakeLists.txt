@@ -5,3 +5,7 @@ target_link_libraries(llm_test PRIVATE llm_c)
 add_executable(buffer_test test_buffer.c)
 add_test(NAME buffer_test COMMAND buffer_test)
 target_link_libraries(buffer_test PRIVATE llm_c)
+
+add_executable(http_test test_http.c)
+add_test(NAME http_test COMMAND http_test)
+target_link_libraries(http_test PRIVATE llm_c)
