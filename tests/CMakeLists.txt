@@ -9,3 +9,7 @@ target_link_libraries(buffer_test PRIVATE llm_c)
 add_executable(http_test test_http.c)
 add_test(NAME http_test COMMAND http_test)
 target_link_libraries(http_test PRIVATE llm_c)
+
+add_executable(json_test test_json.c)
+target_link_libraries(json_test PRIVATE llm_c)
+add_test(NAME json_test COMMAND json_test)
