@@ -1,3 +1,6 @@
+#ifndef LLM_HTTP_H
+#define LLM_HTTP_H
+
 #include "buffer.h"
 
 typedef enum {
@@ -34,3 +37,5 @@ int http_execute(const HttpRequest *request, HttpResponse *response);
 void http_request_destroy(HttpRequest *request) ;
 
 void http_response_destroy(HttpResponse *response);
+
+#endif

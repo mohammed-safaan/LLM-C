@@ -1,3 +1,6 @@
+#ifndef LLM_JSON_H
+#define LLM_JSON_H
+
 #include "../third_party/cJSON/cJSON.h"
 
 const char *json_get_string(cJSON *obj, const char *key);
@@ -12,3 +15,4 @@ cJSON *json_create_array(void);
 
 char *json_print(cJSON *root);
 void json_free_string(char *text);
+#endif

@@ -117,8 +117,8 @@ int http_execute(const HttpRequest *request, HttpResponse *response) {
     return -1;
   }
 
-  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
-  curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30L);
+  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 60L);
+  curl_easy_setopt(curl, CURLOPT_TIMEOUT, 120L);
   curl_easy_setopt(curl, CURLOPT_URL, request->url);
 
   if (http_configure_method(curl, request->method) != 0) {
