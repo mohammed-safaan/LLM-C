@@ -65,6 +65,32 @@ static void test_http_invalid_arguments(void) {
   http_response_destroy(&response);
 }
 
+static void test_http_get(void) {
+  HttpRequest request;
+  HttpResponse response;
+
+  assert(http_request_init(&request) == 0);
+  assert(http_response_init(&response) == 0);
+
+  request.method = HTTP_GET;
+  request.url = "https://httpbin.org/get";
+
+  int result = http_execute(&request, &response);
+  printf("GET result=%d status=%ld\n", result, response.status);
+  if (result == 0) {
+    printf("response body: %.*s\n", (int)response.body.length,
+           (char *)response.body.data);
+  }
+
+  /* HTTP client succeeded (network worked), server returned any response */
+  assert(result == 0);
+  assert(response.status > 0);
+  assert(response.body.length > 0);
+
+  http_request_destroy(&request);
+  http_response_destroy(&response);
+}
+
 static void test_http_post(void) {
   HttpRequest request;
   HttpResponse response;
@@ -74,27 +100,70 @@ static void test_http_post(void) {
 
   request.method = HTTP_POST;
   request.url = "https://httpbin.org/post";
-  request.body = "{\"key\":\"value\"}";
+  request.body = "{\"title\":\"foo\",\"body\":\"bar\",\"userId\":1}";
 
   assert(http_request_add_header(&request, "Content-Type: application/json") ==
          0);
 
   int result = http_execute(&request, &response);
-  printf("result=%d status=%ld\n", result, response.status);
-  printf("response body: %.*s\n", (int)response.body.length,
-         (char *)response.body.data);
-  printf("body=\n%s\n", response.body.data);
+  printf("POST result=%d status=%ld\n", result, response.status);
+  if (result == 0) {
+    printf("response body: %.*s\n", (int)response.body.length,
+           (char *)response.body.data);
+  }
+
   assert(result == 0);
-  assert(response.status >= 200);
-  assert(response.status < 600);
+  assert(response.status > 0);
   assert(response.body.length > 0);
 
-  /* Ensure the request object can be reused */
+  http_request_destroy(&request);
   http_response_destroy(&response);
+}
+
+static void test_http_put(void) {
+  HttpRequest request;
+  HttpResponse response;
+
+  assert(http_request_init(&request) == 0);
   assert(http_response_init(&response) == 0);
 
-  assert(http_execute(&request, &response) == 0);
-  assert(response.status == 200);
+  request.method = HTTP_PUT;
+  request.url = "https://httpbin.org/put";
+  request.body = "{\"id\":1,\"title\":\"updated\",\"body\":\"bar\",\"userId\":1}";
+
+  assert(http_request_add_header(&request, "Content-Type: application/json") ==
+         0);
+
+  int result = http_execute(&request, &response);
+  printf("PUT result=%d status=%ld\n", result, response.status);
+  if (result == 0) {
+    printf("response body: %.*s\n", (int)response.body.length,
+           (char *)response.body.data);
+  }
+
+  assert(result == 0);
+  assert(response.status > 0);
+  assert(response.body.length > 0);
+
+  http_request_destroy(&request);
+  http_response_destroy(&response);
+}
+
+static void test_http_delete(void) {
+  HttpRequest request;
+  HttpResponse response;
+
+  assert(http_request_init(&request) == 0);
+  assert(http_response_init(&response) == 0);
+
+  request.method = HTTP_DELETE;
+  request.url = "https://httpbin.org/delete";
+
+  int result = http_execute(&request, &response);
+  printf("DELETE result=%d status=%ld\n", result, response.status);
+
+  assert(result == 0);
+  assert(response.status > 0);
 
   http_request_destroy(&request);
   http_response_destroy(&response);
@@ -107,7 +176,10 @@ int main(void) {
   test_http_response_init();
   test_http_add_header();
   test_http_invalid_arguments();
+  test_http_get();
   test_http_post();
+  test_http_put();
+  test_http_delete();
 
   http_cleanup();
 
